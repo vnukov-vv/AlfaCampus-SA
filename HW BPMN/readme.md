@@ -1,0 +1,3 @@
+- *about.md* - Use Case из ДЗ№1
+- *bpmn* - BPMN созданный непосредственно в draw.io
+- *bpmn.drawio* - экспортированный xml из draw.io
