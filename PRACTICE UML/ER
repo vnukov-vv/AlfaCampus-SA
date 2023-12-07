@@ -1,0 +1,74 @@
+@startuml
+entity "Customers" as e1{
+*IdCustomer
+--
+**FirstName**
+**LastName**
+Middle Name
+**Birthday**
+**Passport**
+Phone
+**CreationDate**
+**UpdateDate**
+* **IdBranch** : <<FK>> Branch.IdBranch
+}
+entity "Bank" as e2{
+*IdBank
+--
+**Name**
+**БИК**
+**Address**
+}
+entity "ATMs" as e3{
+*idATM
+--
+**Type**
+**Address**
+* **IdBank** : <<FK>> Bank.IdBank
+* IdBranch : <<FK>> Branch.IdBranch
+
+
+}
+entity "Operations" as e4{
+*IdOperation
+--
+* **IdCustomer** : <<FK>> Customers.IdCustomer
+* IdEmployee : <<FK>> Employees.IdEmployee
+* **IdOperationType**: <<FK>> OperationTypes.IdOperationType
+* IdATM: <<FK>> ATMs.IdATM
+* IdBranch : <<FK>> Branch.IdBranch
+**startDate**
+endDate
+}
+entity "Employees" as e5{
+*IdEmployee
+--
+**FirstName**
+**LastName**
+Middle Name
+**Birthday**
+**JobTitle**
+* **IdBranch** : <<FK>> Branch.IdBranch
+}
+entity "Branch" as e6{
+*IdBranch
+--
+**Address**
+* **IdBank** : <<FK>> Bank.IdBank
+}
+entity "OperationTypes" as e7{
+*IdOperationType
+--
+**Name**
+Description
+**CreationDate**
+}
+e1 }|-- e6 : в каком отделении
+e4 }|-- e1 : какие операции совершает
+e4 }|-- e7 : какой тип операции
+e4 }o-- e3 : через какой банкомат
+e4 }o-- e5 : с помощью какого сотрудника
+e5 }|-- e6 : в каком отделе работает
+e6 }|-- e2 : в каком банке
+e3 }|-- e2 : к какому банку относится
+@enduml
