@@ -40,6 +40,7 @@ O -- UC6
 (UC0) <.. (UC1) : include
 (UC0) <.. (UC4) : include
 (UC0) <.. (UC6) : include
+(UC3)<.left.(UC5) : include
 O .left.> D : extend
 
 Note "Документ\n удостоверяющий\n личность **Клиента**" as N1
