@@ -39,13 +39,16 @@
 ![Здесь должны быть ваша картинка](https://kamchatkaland.ru/upload/images/putevoditel/fevral/fevral2.jpg.webp)
 
 
-## ВЫВОДЫ
+## ВЫВОДЫ <sup>*</sup>
 Таблица со столбцами:
 |Номер|Имя студента|Совет
 |--|--|--|
 |1.||И от каждого совет
 |2.|Вова|Практикуй!
 |3.|...|...
+
+<sup>*</sup> Бонус-трек от @alikgafuroff
+[Немотивированный гавно](https://www.youtube.com/watch?v=wfryx_neGgs)
 
 
 
