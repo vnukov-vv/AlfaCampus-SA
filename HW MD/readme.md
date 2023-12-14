@@ -1,3 +1,6 @@
 # ДЗ №6 (MD)
-- [ ] в файл *.md перенести ЗАПОЛНЕННЫЙ **шаблон BRD** ( заполните требования на разработку фичи) <br> ("черновик" (?) см. [сюда](https://github.com/vnukov-vv/AlfaCampus-SA/blob/e76443e466370d09282d64e5915849f865e5606f/HW%20BASIC/HW_1.md) )
+- [ ] в файл *.md перенести ЗАПОЛНЕННЫЙ **шаблон BRD** ( заполните требования на разработку фичи)
+<br> ("черновик" (?) см. [сюда](https://github.com/vnukov-vv/AlfaCampus-SA/blob/e76443e466370d09282d64e5915849f865e5606f/HW%20BASIC/HW_1.md) 
+а Use Case [тут](https://github.com/vnukov-vv/AlfaCampus-SA/blob/main/HW%20BPMN/about.md)
+)
 - [ ] обязательно должны быть ( таблицы, ссылка на схему в drawio , картинка с схемой  из drawio, список)
