@@ -10,8 +10,9 @@
 
 ![](https://memepedia.ru/wp-content/uploads/2018/12/novogodnie-memy-13.jpg)
 
+## 2. <ins><u>Январь</u></ins>
+[//]: # (Это комментарий, он не будет отображаться. теги underline <u> не работают, но можно решить через <ins> )
 
-## 2. <u>Январь</u>
 ### Список ~хорошего~ отличного, что с вами произошло
 
 * Здесь
@@ -37,7 +38,6 @@
 ### Картинка месяца 
 
 ![Здесь должны быть ваша картинка](https://kamchatkaland.ru/upload/images/putevoditel/fevral/fevral2.jpg.webp)
-
 
 ## ВЫВОДЫ <sup>*</sup>
 Таблица со столбцами:
