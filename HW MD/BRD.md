@@ -1,8 +1,8 @@
-<table>
+<table width="1000" border="1">
 <thead>
   <tr>
-    <td rowspan="3"><img src="https://github.com/vnukov-vv/AlfaCampus-SA/assets/101928718/6c8664d3-2b42-4c23-9b08-686f390ca366"></td>
-    <td colspan="2">Бизнес функциональные требования<br>Доставка карты клиенту курьером</td>
+    <td rowspan="3"><img width="300px" src="https://github.com/vnukov-vv/AlfaCampus-SA/assets/101928718/6c8664d3-2b42-4c23-9b08-686f390ca366"></td>
+    <td colspan="2" width="700"><p align="center"><b>Бизнес функциональные требования<br>Доставка карты клиенту курьером</b></p></td>
   </tr>
   <tr>
     <td>Дата</td>
