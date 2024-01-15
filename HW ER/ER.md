@@ -1,3 +1,4 @@
+```
 @startuml
 
 ' avoid problems with angled crows feet
@@ -218,6 +219,7 @@ entity "Способ Доставки" as Way {
 --
 **Наименовавние**
 }
+```
 
 Order }o--|| OStatus 
 Order }o--|| Way 
