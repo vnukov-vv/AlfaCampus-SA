@@ -8,3 +8,11 @@
 
 - *ParcelDelivery.drawio.png* - диаграмма картинкой
 - *ParcelDelivery.drawio.xml* - диаграмма в `xml`
+
+# ДЗ №8 (DB SQL)
+- *SQL_KLADR.md* - Практическое задание по теме «БД и SQL» (КЛАДР)
+    - [ ] Описание целей и задач указанного проекта;
+    - [ ] SQL скрипты:
+        - добавляющие новые атрибуты в PlasticOrder.dbo.departments;
+        - разбирающие адресную строку dbo.departments.addressString и заполняющие адресные атрибуты КЛАДР в dbo.departments;
+        - удаляющие новые атрибуты в dbo.departments.
