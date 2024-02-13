@@ -6,7 +6,7 @@
   </tr>
   <tr>
     <td>Дата</td>
-    <td>29.01.2024</td>
+    <td>13.02.2024</td>
   </tr>
   <tr>
     <td>Версия</td>
@@ -91,7 +91,7 @@
 
 Таблица ссылается на внешние ключи: *PlasticOrder.dbo.orders: FK_orders_department*
 
-#### dbo.departments (переходное состояние)
+#### dbo.departments (TO BE)
 ##### Колонки (6)
 |№ |Имя|Тип<br>данных|Размер|Обязательное<br>(Да/Нет)|Описание|
 |---|---|---|---|---|---|
@@ -104,22 +104,9 @@
 |7|*city*|nvarchar|255|Нет|Город|
 |8|*street*|nvarchar|255|Нет|Улица|
 |9|*build*|nvarchar|255|Нет|Дом|
-|10|*SCNAME*|varchar|10|Нет||
+|10|*SCNAME*|varchar|10|Нет|Тип адресного объекта 5-го уровня классификации|
 |11|*KLADR*|varchar|13|Нет|Город (КЛАДР)|
 |12|*KLADR_STREET*|nvarchar|17|Нет|Улица (КЛАДР)|
-
-#### dbo.departments (TO BE)
-Отделения выдачи карт
-<br>**Допущение**: В рамках задания поддержка КЛАДР будет включать: уровень города – атрибут KLADR; уровень улицы – KLADR_STREET. 
-##### Колонки (6)
-|№ |Имя|Тип<br>данных|Размер|Обязательное<br>(Да/Нет)|Описание|
-|---|---|---|---|---|---|
-|1|*idDepartment*|int|4|Да|Первичный ключ|
-|2|*name*|nchar|255|Нет|Наименование отделения|
-|3|*idDepartmentsSystem*|bigint|8|Нет|Идентификатор в системе-источнике|
-|4|*workTime*|nvarchar|255|Нет|Времф работы отделения Банка|
-|5|*phone*|nvarchar|255|Нет|Телефон отделения Банка|
-|6|*addressString*|nvarchar|255|Нет|Адрес Банка|
 
 ### <a id="title3_3"> Описание таблиц БД **KLADR** </a>
 Классификатор адресов РФ
@@ -130,17 +117,33 @@
 |2|*dbo.DOMA*|содержит объекты 6-го уровня классификации (**номера домов**, улиц, городов и населённых пунктов);|
 |3|*dbo.FLAT*|содержит объекты 7-го уровня классификации (**номера квартир** домов);|
 |4|*bo.KLADR*|содержит объекты c 1-го по 4-й уровень классификации (регионы; районы (улусы); города, посёлки городского типа, сельсоветы; сельские населённые пункты);|
-|5|*dbo.NAMEMAP*||
+|5|*dbo.NAMEMAP*|содержит объекты 5-го уровня классификации|
 |6|*dbo.SOCRBASE*|содержит объекты с краткими наименованиями **типов адресных объектов**;|
 |7|*dbo.STREET*|содержит объекты 5-го уровня классификации (**улицы** городов и населённых пунктов);|
 
-#### dbo.ALTNAMES
-#### dbo.DOMA
-#### dbo.FLAT
+<br>**Допущение**: В рамках задания поддержка КЛАДР будут использоваться таблицы **dbo.KLADR**, **dbo.STREET**. Таблица **dbo.SOCRBASE** использовалась как справочник формата сокращений.
+
 #### dbo.KLADR
-#### dbo.NAMEMAP
-#### dbo.SOCRBASE
+Название	#	Тип	Длина	Масштаб	Точность	Not Null	Идентичность	По умолчанию	Сопоставление	Description
+NAME	1	varchar	40	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+SOCR	2	varchar	10	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+CODE	3	varchar	13	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+INDEX	4	varchar	6	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+GNINMB	5	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+UNO	6	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+OCATD	7	varchar	11	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+STATUS	8	varchar	1	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+
 #### dbo.STREET
+Название	#	Тип	Длина	Масштаб	Точность	Not Null	Идентичность	По умолчанию	Сопоставление	Description
+NAME	1	varchar	40	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+SOCR	2	varchar	10	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+CODE	3	varchar	17	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+INDEX	4	varchar	6	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+GNINMB	5	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+UNO	6	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+OCATD	7	varchar	11	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+
 
 ##### Колонки (6)
 |№ |Имя|Тип<br>данных|Размер|Обязательное<br>(Да/Нет)|Описание|
