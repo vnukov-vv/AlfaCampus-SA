@@ -168,6 +168,98 @@ ADD City nvarchar(255),
 
 ```
 /* разбираем адресную строку dbo.departments.addressString и заполняем адресные атрибуты КЛАДР в dbo.departments */
+
+WITH SPLIT_ADDRESS AS
+(
+SELECT
+	IdDepartment
+	,STRING_AGG(City, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS City 
+	,STRING_AGG(Village, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS Village
+	,STRING_AGG(StreetType, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS SCNAME
+	,STRING_AGG(Street, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS Street
+	,STRING_AGG(Build, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS Build
+FROM 
+(SELECT 
+	IdDepartment , addressString,
+    CASE 
+        WHEN CHARINDEX('г. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('г. ', value) + 3, LEN(value))))
+        WHEN CHARINDEX('г ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('г ', value) + 2, LEN(value))))
+        ELSE NULL
+    END AS City,
+    CASE 
+        WHEN CHARINDEX('с. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('с. ', value) + 3, LEN(value))))
+        ELSE NULL
+    END AS Village,
+    CASE 
+        WHEN CHARINDEX('пр. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр. ', value) + 4, LEN(value))))
+        WHEN CHARINDEX('пер. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пер. ', value) + 5, LEN(value))))
+        WHEN CHARINDEX('пр-д ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр-д ', value) + 5, LEN(value))))
+        WHEN CHARINDEX('ул. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('ул. ', value) + 4, LEN(value))))
+        WHEN CHARINDEX('пр-кт ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр-кт ', value) + 6, LEN(value))))
+        WHEN CHARINDEX('б-р ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('б-р ', value) + 4, LEN(value))))
+        WHEN CHARINDEX('ш. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('ш. ', value) + 3, LEN(value))))
+        WHEN CHARINDEX('пл. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пл. ', value) + 4, LEN(value))))
+        WHEN CHARINDEX('пр-т ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр-т ', value) + 5, LEN(value))))
+        WHEN CHARINDEX('аллея ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('аллея ', value) + 6, LEN(value))))
+        WHEN CHARINDEX('линия ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('линия ', value) + 6, LEN(value))))
+        ELSE NULL
+    END AS Street,
+    CASE 
+        WHEN CHARINDEX('д.', value) > 0 THEN REPLACE(LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('д. ', value) + 3, LEN(value)))),'. ','') -- появляется '.' только для IdDepartment=118 o_O из-за непечатного символа
+	    WHEN CHARINDEX('дом ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('д. ', value) + 5, LEN(value)))) -- появляется '.' только для IdDepartment=118 o_O из-за непечатного символа
+        ELSE NULL
+    END AS Build,
+    CASE 
+        WHEN CHARINDEX('пр.', value) > 0 THEN 'пр-кт'
+        WHEN CHARINDEX('пер.', value) > 0 THEN 'пер'
+        WHEN CHARINDEX('пр-д', value) > 0 THEN 'проезд'
+        WHEN CHARINDEX('ул.', value) > 0 THEN 'ул'
+        WHEN CHARINDEX('пр-кт', value) > 0 THEN 'пр-кт'
+        WHEN CHARINDEX('б-р', value) > 0 THEN 'б-р'
+        WHEN CHARINDEX('ш.', value) > 0 THEN 'ш'
+        WHEN CHARINDEX('пл.', value) > 0 THEN 'пл'
+        WHEN CHARINDEX('пр-т', value) > 0 THEN 'пр-кт'
+        WHEN CHARINDEX('линия', value) > 0 THEN 'линия'
+        WHEN CHARINDEX('аллея ', value) > 0 THEN 'аллея'
+        ELSE NULL
+    END AS StreetType,
+    CASE 
+        WHEN CHARINDEX('д. ', value) > 0 THEN 'д.'
+        WHEN CHARINDEX('д ', value) > 0 THEN 'д.'
+        ELSE NULL
+    END AS BuildType,
+    CASE 
+        WHEN CHARINDEX('с.', value) > 0 THEN 'с.'
+        ELSE NULL
+    END AS VillageType
+FROM 
+    dbo.departments
+CROSS APPLY 
+    STRING_SPLIT(addressString, ',')
+WHERE CHARINDEX(',', addressString) != 0
+) AS TMP_TBL
+where 1=1
+group BY IdDepartment
+)
+SELECT
+	IdDepartment 
+	,City
+	,Village 
+	,Street
+	,Build
+	,SCNAME
+	,k.CODE "KLADR"
+	,s.CODE "KLADR_STREET" 
+FROM SPLIT_ADDRESS sa
+	LEFT JOIN KLADR.dbo.KLADR k ON sa.City = k.name
+	LEFT JOIN KLADR.dbo.STREET s ON  sa.Street = s.name
+where 1=1
+	and LEFT(s.CODE,11) = LEFT(k.CODE,11)
+	and s.socr = sa.SCNAME
+;
+
+
+
 ```
 
 ```
