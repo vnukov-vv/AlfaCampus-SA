@@ -101,12 +101,13 @@
 |4|*workTime*|nvarchar|255|Нет|Времф работы отделения Банка|
 |5|*phone*|nvarchar|255|Нет|Телефон отделения Банка|
 |6|*addressString*|nvarchar|255|Нет|Адрес Банка|
-|7|*city*|nvarchar|255|Нет|Город|
-|8|*street*|nvarchar|255|Нет|Улица|
-|9|*build*|nvarchar|255|Нет|Дом|
-|10|*SCNAME*|varchar|10|Нет|Тип адресного объекта 5-го уровня классификации|
-|11|*KLADR*|varchar|13|Нет|Город (КЛАДР)|
-|12|*KLADR_STREET*|nvarchar|17|Нет|Улица (КЛАДР)|
+|7|*city*|nvarchar|255|Нет|Город, Городской округ|
+|8|*village*|nvarchar|255|Нет|Населенный пункт|
+|9|*street*|nvarchar|255|Нет|Улица|
+|10|*build*|nvarchar|255|Нет|Дом|
+|11|*SCNAME*|varchar|10|Нет|Тип адресного объекта 5-го уровня классификации|
+|12|*KLADR*|varchar|13|Нет|Город (КЛАДР)|
+|13|*KLADR_STREET*|nvarchar|17|Нет|Улица (КЛАДР)|
 
 ### <a id="title3_3"> Описание таблиц БД **KLADR** </a>
 Классификатор адресов РФ
@@ -124,36 +125,45 @@
 <br>**Допущение**: В рамках задания поддержка КЛАДР будут использоваться таблицы **dbo.KLADR**, **dbo.STREET**. Таблица **dbo.SOCRBASE** использовалась как справочник формата сокращений.
 
 #### dbo.KLADR
-Название	#	Тип	Длина	Масштаб	Точность	Not Null	Идентичность	По умолчанию	Сопоставление	Description
-NAME	1	varchar	40	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-SOCR	2	varchar	10	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-CODE	3	varchar	13	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-INDEX	4	varchar	6	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-GNINMB	5	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-UNO	6	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-OCATD	7	varchar	11	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-STATUS	8	varchar	1	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
+объекты c 1-го по 4-й уровень классификации
+##### Колонки (8)
+|№ |Имя|Тип<br>данных|Размер|Обязательное<br>(Да/Нет)|Описание|
+|---|---|---|---|---|---|
+|1	|NAME	|varchar	|40	|Нет|Наименование адресного объекта|
+|2	|SOCR	|varchar	|10	|Нет|Сокращенное наименование типа|
+|3	|CODE	|varchar	|13	|Нет|Код адресного объекта|
+|4	|INDEX	|varchar	|6	|Нет||
+|5	|GNINMB	|varchar	|4	|Нет||
+|6	|UNO	|varchar	|4	|Нет||
+|7	|OCATD	|varchar	|11	|Нет||
+|8	|STATUS	|varchar	|1	|Нет||
 
 #### dbo.STREET
-Название	#	Тип	Длина	Масштаб	Точность	Not Null	Идентичность	По умолчанию	Сопоставление	Description
-NAME	1	varchar	40	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-SOCR	2	varchar	10	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-CODE	3	varchar	17	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-INDEX	4	varchar	6	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-GNINMB	5	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-UNO	6	varchar	4	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-OCATD	7	varchar	11	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL]
-
-
+объекты 5-го уровня классификации
 ##### Колонки (6)
 |№ |Имя|Тип<br>данных|Размер|Обязательное<br>(Да/Нет)|Описание|
 |---|---|---|---|---|---|
-|---|---|---|---|---|---|
+|1	|NAME	|varchar	|40	|Нет|Наименование адресного объекта|
+|2	|SOCR	|varchar	|10	|Нет|Сокращенное наименование типа|
+|3	|CODE	|varchar	|17	|Нет|Код адресного объекта|
+|4	|INDEX	|varchar	|6	|Нет||
+|5	|GNINMB	|varchar	|4	|Нет||
+|6	|UNO	|varchar	|4	|Нет||
+|7	|OCATD	|varchar	|11	|Нет||
 
 
 ### <a id="title3_4"> SQL-скрипты </a>
 ```
 /* добавляем новые атрибуты в PlasticOrder.dbo.departments */
+
+ALTER TABLE dbo.departments
+ADD City nvarchar(255),
+    Village nvarchar(255),
+    Street nvarchar(255),
+    Build nvarchar(255),
+    SCNAME varchar(10),
+    KLADR varchar(13),
+    KLADR_STREET varchar(17)
 ```
 
 ```
@@ -161,8 +171,18 @@ OCATD	7	varchar	11	[NULL]	[NULL]	false	false	[NULL]	Cyrillic_General_CI_AS	[NULL
 ```
 
 ```
-/* удаляем старые атрибуты в dbo.departments */
+/* удаляем новые атрибуты в dbo.departments (отмена внесенных изменений) */
 
+ALTER TABLE
+    dbo.departments
+DROP COLUMN
+    City,
+    Village,
+    Street,
+    Build,
+    SCNAME,
+    KLADR,
+    KLADR_STREET
 ```
 
 
