@@ -153,6 +153,8 @@
 
 
 ### <a id="title3_4"> SQL-скрипты </a>
+
+#### 1.
 ```
 /* добавляем новые атрибуты в PlasticOrder.dbo.departments */
 
@@ -165,7 +167,7 @@ ADD City nvarchar(255),
     KLADR varchar(13),
     KLADR_STREET varchar(17)
 ```
-
+#### 2.1
 ```
 /* разбираем адресную строку dbo.departments.addressString и заполняем адресные атрибуты КЛАДР в dbo.departments */
 
@@ -258,10 +260,78 @@ where 1=1
 	and s.socr = sa.SCNAME
 ;
 
+```
+#### 2.2
+```
+/* Заполнение атрибутов PlasticOrder.dbo.departments данными КЛАДР (не проверен!) */
 
+-- Объявление курсора
+DECLARE addressCursor CURSOR FOR
+SELECT
+    IdDepartment,
+    City,
+    Village,
+    Street,
+    Build,
+    SCNAME,
+    KLADR,
+    KLADR_STREET
+FROM 
+    (
+        SELECT
+            IdDepartment,
+            City,
+            Village,
+            Street,
+            Build,
+            SCNAME,
+            k.CODE AS KLADR,
+            s.CODE AS KLADR_STREET
+        FROM 
+            SPLIT_ADDRESS
+    ) AS data;
+
+-- Открытие курсора
+OPEN addressCursor;
+
+-- Объявление переменных для хранения значений
+DECLARE @IdDepartment INT;
+DECLARE @City NVARCHAR(255);
+DECLARE @Village NVARCHAR(255);
+DECLARE @Street NVARCHAR(255);
+DECLARE @Build NVARCHAR(255);
+DECLARE @SCNAME NVARCHAR(10);
+DECLARE @KLADR NVARCHAR(13);
+DECLARE @KLADR_STREET NVARCHAR(17);
+
+-- Получение первой строки из курсора
+FETCH NEXT FROM addressCursor INTO @IdDepartment, @City, @Village, @Street, @Build, @SCNAME, @KLADR, @KLADR_STREET;
+
+-- Начало цикла
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Обновление данных в таблице PlasticOrder.dbo.departments
+    UPDATE PlasticOrder.dbo.departments
+    SET 
+        City = @City,
+        Village = @Village,
+        Street = @Street,
+        Build = @Build,
+        SCNAME = @SCNAME,
+        KLADR = @KLADR,
+        KLADR_STREET = @KLADR_STREET
+    WHERE IdDepartment = @IdDepartment;
+
+    -- Получение следующей строки из курсора
+    FETCH NEXT FROM addressCursor INTO @IdDepartment, @City, @Village, @Street, @Build, @SCNAME, @KLADR, @KLADR_STREET;
+END;
+
+-- Закрытие курсора
+CLOSE addressCursor;
+DEALLOCATE addressCursor;
 
 ```
-
+#### 3.
 ```
 /* удаляем новые атрибуты в dbo.departments (отмена внесенных изменений) */
 
