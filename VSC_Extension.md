@@ -1,0 +1,13 @@
+## Extension for Visual Studio Code
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) — Supercharge Git in VS Code.
+- [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) - Git Graph Extension.
+- [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) - Markdown Support.
+- [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles).
+- [Markdown Plantuml Preview](https://marketplace.visualstudio.com/items?itemName=myml.vscode-markdown-plantuml-preview).
+- [PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml) - Rich PlantUML support.
+- [json](https://marketplace.visualstudio.com/items?itemName=ZainChen.json) - adds json support.
+- [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) - unofficial extension.
+- [PlantUML Previewer](https://marketplace.visualstudio.com/items?itemName=Mebrahtom.plantumlpreviewer) - CTRL + P (Windows/Linux) CMD + P (Mac).
+- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) - official extension.
+- [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi) - OpenAPI Tools
+- [Swagger Viewer](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer) -  preview and validate Swagger 2.0 and OpenAPI files
