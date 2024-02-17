@@ -12,9 +12,9 @@
 # ДЗ №8 (DB SQL)
 - *SQL_KLADR.md* - Практическое задание по теме «БД и SQL» (КЛАДР)
     - [x] Описание целей и задач указанного проекта;
-    - [ ] SQL скрипты:
+    - [x] SQL скрипты:
         - [x] добавляющие новые атрибуты в PlasticOrder.dbo.departments;
-        - [ ] разбирающие адресную строку dbo.departments.addressString и заполняющие адресные атрибуты КЛАДР в dbo.departments;
+        - [x] разбирающие адресную строку dbo.departments.addressString и заполняющие адресные атрибуты КЛАДР в dbo.departments;
         - [x] удаляющие новые атрибуты в dbo.departments.
 
 # ДЗ №9 (DB PostgreSQL )
