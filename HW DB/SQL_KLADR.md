@@ -10,7 +10,7 @@
   </tr>
   <tr>
     <td>Версия</td>
-    <td>1.0</td>
+    <td>2.0</td>
   </tr>
 </thead>
 </table>
@@ -154,7 +154,7 @@
 
 ### <a id="title3_4"> SQL-скрипты </a>
 
-#### 1.
+#### 1. Добавляем атрибуты в PlasticOrder.dbo.departments
 ```
 /* добавляем новые атрибуты в PlasticOrder.dbo.departments */
 
@@ -167,7 +167,7 @@ ADD City nvarchar(255),
     KLADR varchar(13),
     KLADR_STREET varchar(17)
 ```
-#### 2.1
+#### 2.1 Разбираем dbo.departments.addressString
 ```
 /* разбираем адресную строку dbo.departments.addressString и заполняем адресные атрибуты КЛАДР в dbo.departments */
 
@@ -256,43 +256,38 @@ FROM SPLIT_ADDRESS sa
 	LEFT JOIN KLADR.dbo.KLADR k ON sa.City = k.name
 	LEFT JOIN KLADR.dbo.STREET s ON  sa.Street = s.name
 where 1=1
-	and LEFT(s.CODE,11) = LEFT(k.CODE,11)
+	and LEFT(s.CODE,10) = LEFT(k.CODE,10)
 	and s.socr = sa.SCNAME
 ;
-
 ```
-#### 2.2
+в выборке задваиваются строки для id = 3, 5 из-за
 ```
-/* Заполнение атрибутов PlasticOrder.dbo.departments данными КЛАДР (не проверен!) */
+select * from KLADR.dbo.STREET s, KLADR.dbo.KLADR k
+ where 1=1
+ and LEFT(s.CODE,10) = LEFT(k.CODE,10)
+ and s.code in(
+ '66000001000203799'
+ ,'66000001000060500'
+ ,'66000001006005600'
+ ,'66000001000117100')
+ and k.name = 'Екатеринбург'
+ and k.socr = 'г'
+ ; 
+````
+установка дополнительных условий на `INDEX` и/или `GNINMB` влияет на остальную выборку
 
--- Объявление курсора
-DECLARE addressCursor CURSOR FOR
-SELECT
-    IdDepartment,
-    City,
-    Village,
-    Street,
-    Build,
-    SCNAME,
-    KLADR,
-    KLADR_STREET
-FROM 
-    (
-        SELECT
-            IdDepartment,
-            City,
-            Village,
-            Street,
-            Build,
-            SCNAME,
-            k.CODE AS KLADR,
-            s.CODE AS KLADR_STREET
-        FROM 
-            SPLIT_ADDRESS
-    ) AS data;
+ NAME | SOCR | CODE||
+---|---|---|---|
+Ленина   |пр-кт|66000001000060500||
+Уральская|ул   |66000001000117100||
+Ленина   |пр-кт|66000001000203799|Этот адресный объект не существует или упразднен|
+Уральская|ул   |66000001006005600|Относится к с. Горный Щит|
 
--- Открытие курсора
-OPEN addressCursor;
+Добавил `CASE` для `SELECT...s.CODE "KLADR_STREET"` и `DISTINCT IdDepartmentв` в окончательный вариант
+
+#### 2.2 Заполняем PlasticOrder.dbo.departments данными КЛАДР
+```
+/* Заполнение атрибутов PlasticOrder.dbo.departments данными КЛАДР */
 
 -- Объявление переменных для хранения значений
 DECLARE @IdDepartment INT;
@@ -304,9 +299,105 @@ DECLARE @SCNAME NVARCHAR(10);
 DECLARE @KLADR NVARCHAR(13);
 DECLARE @KLADR_STREET NVARCHAR(17);
 
+DECLARE addressCursor CURSOR FOR
+
+WITH SPLIT_ADDRESS AS
+			(SELECT
+				IdDepartment
+				,STRING_AGG(City, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS City 
+				,STRING_AGG(Village, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS Village
+				,STRING_AGG(StreetType, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS SCNAME
+				,STRING_AGG(Street, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS Street
+				,STRING_AGG(Build, '') WITHIN GROUP (ORDER BY IdDepartment ASC) AS Build
+			FROM 
+			(SELECT 
+				IdDepartment , addressString,
+			    CASE 
+			        WHEN CHARINDEX('г. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('г. ', value) + 3, LEN(value))))
+			        WHEN CHARINDEX('г ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('г ', value) + 2, LEN(value))))
+			        ELSE NULL
+			    END AS City,
+			    CASE 
+			        WHEN CHARINDEX('с. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('с. ', value) + 3, LEN(value))))
+			        ELSE NULL
+			    END AS Village,
+			    CASE 
+			        WHEN CHARINDEX('пр. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр. ', value) + 4, LEN(value))))
+			        WHEN CHARINDEX('пер. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пер. ', value) + 5, LEN(value))))
+			        WHEN CHARINDEX('пр-д ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр-д ', value) + 5, LEN(value))))
+			        WHEN CHARINDEX('ул. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('ул. ', value) + 4, LEN(value))))
+			        WHEN CHARINDEX('пр-кт ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр-кт ', value) + 6, LEN(value))))
+			        WHEN CHARINDEX('б-р ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('б-р ', value) + 4, LEN(value))))
+			        WHEN CHARINDEX('ш. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('ш. ', value) + 3, LEN(value))))
+			        WHEN CHARINDEX('пл. ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пл. ', value) + 4, LEN(value))))
+			        WHEN CHARINDEX('пр-т ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('пр-т ', value) + 5, LEN(value))))
+			        WHEN CHARINDEX('аллея ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('аллея ', value) + 6, LEN(value))))
+			        WHEN CHARINDEX('линия ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('линия ', value) + 6, LEN(value))))
+			        ELSE NULL
+			    END AS Street,
+			    CASE 
+			        WHEN CHARINDEX('д.', value) > 0 THEN REPLACE(LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('д. ', value) + 3, LEN(value)))),'. ','') -- появляется '.' только для IdDepartment=118 o_O из-за непечатного символа
+				    WHEN CHARINDEX('дом ', value) > 0 THEN LTRIM(RTRIM(SUBSTRING(value, CHARINDEX('д. ', value) + 5, LEN(value)))) -- появляется '.' только для IdDepartment=118 o_O из-за непечатного символа
+			        ELSE NULL
+			    END AS Build,
+			    CASE 
+			        WHEN CHARINDEX('пр.', value) > 0 THEN 'пр-кт'
+			        WHEN CHARINDEX('пер.', value) > 0 THEN 'пер'
+			        WHEN CHARINDEX('пр-д', value) > 0 THEN 'проезд'
+			        WHEN CHARINDEX('ул.', value) > 0 THEN 'ул'
+			        WHEN CHARINDEX('пр-кт', value) > 0 THEN 'пр-кт'
+			        WHEN CHARINDEX('б-р', value) > 0 THEN 'б-р'
+			        WHEN CHARINDEX('ш.', value) > 0 THEN 'ш'
+			        WHEN CHARINDEX('пл.', value) > 0 THEN 'пл'
+			        WHEN CHARINDEX('пр-т', value) > 0 THEN 'пр-кт'
+			        WHEN CHARINDEX('линия', value) > 0 THEN 'линия'
+			        WHEN CHARINDEX('аллея ', value) > 0 THEN 'аллея'
+			        ELSE NULL
+			    END AS StreetType,
+			    CASE 
+			        WHEN CHARINDEX('д. ', value) > 0 THEN 'д.'
+			        WHEN CHARINDEX('д ', value) > 0 THEN 'д.'
+			        ELSE NULL
+			    END AS BuildType,
+			    CASE 
+			        WHEN CHARINDEX('с.', value) > 0 THEN 'с.'
+			        ELSE NULL
+			    END AS VillageType
+			FROM 
+			    dbo.departments
+			CROSS APPLY 
+			    STRING_SPLIT(addressString, ',')
+			WHERE CHARINDEX(',', addressString) != 0
+			) AS TMP_TBL
+			where 1=1
+			group BY IdDepartment
+			)
+	SELECT
+		DISTINCT IdDepartment
+		,City
+		,Village 
+		,Street
+		,Build
+		,SCNAME
+		,k.CODE "KLADR"
+		,CASE
+			WHEN s.CODE = '66000001000203799' THEN '66000001000060500'
+			WHEN s.CODE = '66000001006005600' THEN '66000001000117100'
+			ELSE s.CODE
+		END AS "KLADR_STREET"
+	FROM SPLIT_ADDRESS sa
+		LEFT JOIN KLADR.dbo.KLADR k ON sa.City = k.name
+		LEFT JOIN KLADR.dbo.STREET s ON  sa.Street = s.name
+	where 1=1
+		and sa.SCNAME = s.socr
+		and LEFT(s.CODE,10) = LEFT(k.CODE,10)
+		order by 1
+
+-- Открытие курсора
+OPEN addressCursor;
+
 -- Получение первой строки из курсора
 FETCH NEXT FROM addressCursor INTO @IdDepartment, @City, @Village, @Street, @Build, @SCNAME, @KLADR, @KLADR_STREET;
-
 -- Начало цикла
 WHILE @@FETCH_STATUS = 0
 BEGIN
@@ -330,8 +421,10 @@ END;
 CLOSE addressCursor;
 DEALLOCATE addressCursor;
 
+select * FROM  dbo.departments
+
 ```
-#### 3.
+#### 3. Удаляем новые атрибуты в dbo.departments
 ```
 /* удаляем новые атрибуты в dbo.departments (отмена внесенных изменений) */
 
