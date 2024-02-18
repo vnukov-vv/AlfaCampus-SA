@@ -20,6 +20,8 @@
 # ДЗ №9 (DB PostgreSQL )
 **Легенда задания**: в рамках проекта по импортозамещению нам предстоит перевести БД с MS SQL Server на PostgreSQL.
 
+[How to configure a Linked Server using the ODBC driver](https://www.sqlshack.com/how-to-configure-a-linked-server-using-the-odbc-driver/)
+
 - Задание:
     - [x] Установить PostgreSQL;
     - [ ] Сформировать скрипты на создание структуры БД PlasticOrder для PostgreSQL. Создать БД и таблицы.
