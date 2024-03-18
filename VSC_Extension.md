@@ -12,5 +12,5 @@
 - [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) - official extension.
 - [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi) - OpenAPI Tools
 - [Swagger Viewer](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer) -  preview and validate Swagger 2.0 and OpenAPI files
-- [LikeC4](https://marketplace.visualstudio.com/items?itemName=likec4.likec4-vscode) - Support for the LikeC4 modeling language
+- [LikeC4](https://marketplace.visualstudio.com/items?itemName=likec4.likec4-vscode) - Support for the LikeC4 modeling [language](https://likec4.dev/docs/tutorial/ "likec4.dev")
 - [Postman](https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode) - enables you to develop and test your APIs in Postman directly from VSC
