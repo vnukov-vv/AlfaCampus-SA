@@ -5,3 +5,4 @@
 - Кастомное сочинение ["Как я провёл..."](https://github.com/vnukov-vv/AlfaCampus-SA/blob/main/PRACTICE/md.md)
 - [Доска в Miro](https://miro.com/app/board/o9J_kjSSX0I=/) по проектированию БД
 - [Доска в Miro](https://miro.com/app/board/uXjVO-toSIQ=/) по архитектуре
+- [Доска в Miro](https://miro.com/app/board/uXjVKdvX0Do=/) по интеграции
