@@ -10,7 +10,10 @@
 !include <office/Users/mobile_user.puml>
 
 'так стрелки будут лучше, но наслаиваются подписи к ним ...
-'skinparam linetype ortho
+'skinparam linetype ortho 
+'с этими двумя параметрами пока не разобрался
+'skinparam nodesep 100
+'skinparam ranksep 100
 
 'поэтому так:
 skinparam linetype polyline
