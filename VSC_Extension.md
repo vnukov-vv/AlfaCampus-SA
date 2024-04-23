@@ -14,3 +14,10 @@
 - [Swagger Viewer](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer) -  preview and validate Swagger 2.0 and OpenAPI files
 - [LikeC4](https://marketplace.visualstudio.com/items?itemName=likec4.likec4-vscode) - Support for the LikeC4 modeling [language](https://likec4.dev/docs/tutorial/ "likec4.dev")
 - [Postman](https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode) - enables you to develop and test your APIs in Postman directly from VSC
+
+## Разработческие от AlfaCampus
+- [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) - автоматически обновляет браузер в режиме реального времени
+- [Project Manager](https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager) - переключаемся между разными проектами
+- [Tabnine: AI Autocomplete](https://marketplace.visualstudio.com/items?itemName=TabNine.tabnine-vscode) - автодополнение кода
+- [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) - комменты по категориям и цветам
+
