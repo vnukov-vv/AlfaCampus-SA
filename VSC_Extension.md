@@ -21,3 +21,7 @@
 - [Tabnine: AI Autocomplete](https://marketplace.visualstudio.com/items?itemName=TabNine.tabnine-vscode) - автодополнение кода
 - [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) - комменты по категориям и цветам
 
+## Другие
+- [Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner) - Run code snippet or code file for multiple languages: C, C++, Java, JavaScript, PHP, Python...
+- [MySQL](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2)- Database manager for MySQL/MariaDB, PostgreSQL, SQLite, Redis and ElasticSearch.
+- 
