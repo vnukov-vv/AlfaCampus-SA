@@ -15,6 +15,7 @@
 - [LikeC4](https://marketplace.visualstudio.com/items?itemName=likec4.likec4-vscode) - Support for the LikeC4 modeling [language](https://likec4.dev/docs/tutorial/ "likec4.dev")
 - [Postman](https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode) - enables you to develop and test your APIs in Postman directly from VSC
 
+
 ## Разработческие от AlfaCampus
 - [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) - автоматически обновляет браузер в режиме реального времени
 - [Project Manager](https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager) - переключаемся между разными проектами
@@ -24,4 +25,4 @@
 ## Другие
 - [Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner) - Run code snippet or code file for multiple languages: C, C++, Java, JavaScript, PHP, Python...
 - [MySQL](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2)- Database manager for MySQL/MariaDB, PostgreSQL, SQLite, Redis and ElasticSearch.
-- 
+- [TypeSpec for VS Code](https://marketplace.visualstudio.com/items?itemName=typespec.typespec-vscode) - This provides provides [**TypeSpec**](https://typespec.io/) language support for describe APIs.
