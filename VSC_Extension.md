@@ -28,4 +28,4 @@
 - [TypeSpec for VS Code](https://marketplace.visualstudio.com/items?itemName=typespec.typespec-vscode) - This provides provides [**TypeSpec**](https://typespec.io/) language support for describe APIs.
 - [AsyncAPI preview](https://marketplace.visualstudio.com/items?itemName=asyncapi.asyncapi-preview)
 - [JSON-crack](https://marketplace.visualstudio.com/items?itemName=AykutSarac.jsoncrack-vscode) - визуализация в графах
-- [PostgreSQL](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) - поактически IDE
+- [PostgreSQL](https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-pgsql) - практически IDE
